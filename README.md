@@ -1,4 +1,4 @@
-# django_account_boilerplate
+# Django account boilerplate
 ![plot](./account/img/1.png) 
 <p align="center">
   <img alt="Light" src="./account/img/3.png" width="45%">
