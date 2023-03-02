@@ -8,7 +8,9 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 <link href="{% static "css/base.css" %}" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.min.js"></script>
+
 
 </head>
 <body>
@@ -31,6 +33,12 @@
         </li>
         <li {% if section == "purchase_order_list" %}class="selected"{% endif %}>
             <a href="{% url 'purchase_order_list' %}">My Purchase order</a>
+        </li>
+        <li {% if section == "sales" %}class="selected"{% endif %}>
+            <a href="{% url 'sales_list' %}">My sales</a>
+        </li>
+        <li {% if section == "sales_report" %}class="selected"{% endif %}>
+            <a href="{% url 'sales_summary_report' %}">My sales report</a>
         </li>
     </ul>
 {% endif %}

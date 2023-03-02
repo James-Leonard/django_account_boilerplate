@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <h1 class="my-4">Sales Summary Report</h1>
+  <form method="get">
+    <div class="form-group row">
+      <label for="start_date" class="col-sm-2 col-form-label">Start Date:</label>
+      <div class="col-sm-4">
+        <input type="date" class="form-control" id="start_date" name="start_date" value="{{ start_date }}">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="end_date" class="col-sm-2 col-form-label">End Date:</label>
+      <div class="col-sm-4">
+        <input type="date" class="form-control" id="end_date" name="end_date" value="{{ end_date }}">
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary mb-2">Generate Report</button>
+  </form>
+
+  {% if total_sales %}
+    <h2>Total Sales: ${{ total_sales }}</h2>
+    <h2>Total Items Sold: {{ total_items_sold }}</h2>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Item Name</th>
+          <th scope="col">Total Sales</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in sales_by_item %}
+          <tr>
+            <td>{{ item.item__name }}</td>
+            <td>${{ item.total_sales }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Day</th>
+          <th scope="col">Total Sales</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for day in sales_by_day %}
+          <tr>
+            <td>{{ day.day|date:"F j, Y" }}</td>
+            <td>${{ day.total_sales }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="btn-group" role="group" aria-label="Export">
+      <a href="?export=csv{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}" class="btn btn-secondary">Export CSV</a>
+      <a href="?export=pdf{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}" class="btn btn-secondary">Export PDF</a>
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}

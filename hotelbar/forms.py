@@ -57,10 +57,12 @@ PurchaseOrderLineFormSet = inlineformset_factory(
 class SalesRecordForm(forms.ModelForm):
     class Meta:
         model = SalesRecord
-        fields = ('item', 'quantity', 'price', 'sold_to')
+        fields = ['item', 'quantity', 'price', 'sold_to']
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['item'].widget.attrs.update({'class': 'form-control'})
+        self.fields['quantity'].widget.attrs.update({'class': 'form-control'})
+        self.fields['price'].widget.attrs.update({'class': 'form-control'})
+        self.fields['sold_to'].widget.attrs.update({'class': 'form-control'})
 
-class SalesRecordForm(forms.ModelForm):
-    class Meta:
-        model = SalesRecord
-        fields = ['item', 'quantity', 'price','sold_to']

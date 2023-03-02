@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Delete Sales Record</h1>
+  <p>Are you sure you want to delete the following sales record?</p>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Inventory Item</th>
+        <th>Quantity Sold</th>
+        <th>Total Price</th>
+        <th>Date Sold</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ sales_record.inventory_item }}</td>
+        <td>{{ sales_record.quantity_sold }}</td>
+        <td>{{ sales_record.total_price }}</td>
+        <td>{{ sales_record.date_sold }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="{% url 'sales_list' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+
+{% endblock %}

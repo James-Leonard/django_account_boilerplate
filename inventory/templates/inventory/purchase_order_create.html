@@ -3,6 +3,18 @@
 {% block content %}
 <div class="container mt-4">
   <h1 class="mb-4">Create Purchase Order</h1>
+  {% if form.errors %}
+<div class="alert alert-danger">
+  {% for field, errors in form.errors.items %}
+    <strong>{{ field }}:</strong>
+    {% for error in errors %}
+      {{ error }}
+    {% endfor %}
+    <br>
+  {% endfor %}
+</div>
+{% endif %}
+
   <form id="purchase-order-form" method="post" action="{% url 'purchase_order_create' %}">
     {% csrf_token %}
     {{ form.as_p }}

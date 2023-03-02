@@ -23,6 +23,7 @@ urlpatterns = [
     path('account/', include('account.urls')),
     path('hotelbar', include('hotelbar.urls')),
     path('', include('inventory.urls')),
+    path('sales/', include('sales.urls')),
 ]
 
 if settings.DEBUG:

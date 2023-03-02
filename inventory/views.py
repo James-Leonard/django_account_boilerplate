@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.forms.models import inlineformset_factory, formset_factory
+from django.forms.models import inlineformset_factory, formset_factory, modelformset_factory
 from datetime import datetime
 
 
@@ -65,31 +65,30 @@ def purchase_order_create(request):
 
 
 
+@login_required
 def purchase_order_update(request, pk):
-    PurchaseOrderLineFormSet = inlineformset_factory(PurchaseOrder, PurchaseOrderLine, form=PurchaseOrderLineForm, extra=5, can_delete=True)
-
     purchase_order = get_object_or_404(PurchaseOrder, pk=pk)
-    if request.method == 'POST':
+    PurchaseOrderLineFormSet = inlineformset_factory(
+        PurchaseOrder, PurchaseOrderLine, form=PurchaseOrderLineForm, extra=1, can_delete=True
+    )
+
+    if request.method == "POST":
         form = PurchaseOrderForm(request.POST, instance=purchase_order)
         formset = PurchaseOrderLineFormSet(request.POST, instance=purchase_order)
         if form.is_valid() and formset.is_valid():
-            purchase_order = form.save(commit=False)
-            purchase_order.total_cost = 0
-            purchase_order.save()
+            form.save()
             formset.save()
-            purchase_order_lines = formset.save(commit=False)
-            for line in purchase_order_lines:
-                line.order = purchase_order
-                line.total_cost = line.price * line.quantity
-                line.save()
-                purchase_order.total_cost += line.total_cost
-            purchase_order.save()
-            messages.success(request, 'Purchase order updated successfully.')
-            return redirect('purchase_order_detail', pk=purchase_order.pk)
+            return redirect("purchase_order_detail", pk=purchase_order.pk)
     else:
         form = PurchaseOrderForm(instance=purchase_order)
         formset = PurchaseOrderLineFormSet(instance=purchase_order)
-    return render(request, 'inventory/purchase_order_update.html', {'form': form, 'formset': formset, 'purchase_order': purchase_order})
+
+    return render(
+        request,
+        "inventory/purchase_order_update.html",
+        {"form": form, "formset": formset, "purchase_order": purchase_order},
+    )
+
 
 def purchase_order_delete(request, pk):
     purchase_order = get_object_or_404(PurchaseOrder, pk=pk)

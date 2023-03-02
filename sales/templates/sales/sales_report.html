@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Sales Report</h1>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Quantity Sold</th>
+        <th>Total Sales</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item, quantity, total_sales in sales_data %}
+        <tr>
+          <td>{{ item }}</td>
+          <td>{{ quantity }}</td>
+          <td>{{ total_sales }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

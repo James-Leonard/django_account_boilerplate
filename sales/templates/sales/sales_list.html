@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Sales Records</h1>
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Sold By</th>
+            <th>Sold To</th>
+            <th>Sale Time</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for sale in sales_records %}
+            <tr>
+              <td>{{ sale.item }}</td>
+              <td>{{ sale.quantity }}</td>
+              <td>{{ sale.price }}</td>
+              <td>{{ sale.sold_by }}</td>
+              <td>{{ sale.sold_to }}</td>
+              <td>{{ sale.sale_time }}</td>
+              <td>
+                <a href="{% url 'sales_edit' sale.pk %}" class="btn btn-sm btn-primary">Edit</a>
+                <a href="{% url 'sales_delete' sale.pk %}" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      
+    <a href="{% url 'sales_add' %}" class="btn btn-primary">Add Sale</a>
+
+  
+{% endblock %}

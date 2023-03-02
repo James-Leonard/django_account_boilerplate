@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     #
     'hotelbar',
     'inventory',
+    'sales',
 ]
 
 MIDDLEWARE = [

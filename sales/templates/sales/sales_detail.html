@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Sale Details</h1>
+    <table class="table">
+        <tr>
+            <th>Date:</th>
+            <td>{{ sale.date }}</td>
+        </tr>
+        <tr>
+            <th>Inventory Item:</th>
+            <td>{{ sale.inventory_item.name }}</td>
+        </tr>
+        <tr>
+            <th>Quantity Sold:</th>
+            <td>{{ sale.quantity_sold }}</td>
+        </tr>
+        <tr>
+            <th>Total Price:</th>
+            <td>{{ sale.total_price }}</td>
+        </tr>
+    </table>
+    <a href="{% url 'sales_edit' sale.pk %}" class="btn btn-primary">Edit Sale</a>
+    <a href="{% url 'sales_delete' sale.pk %}" class="btn btn-danger">Delete Sale</a>
+{% endblock %}

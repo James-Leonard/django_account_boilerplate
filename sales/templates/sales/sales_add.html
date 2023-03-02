@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Add Sales Record</h1>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-primary">Add</button>
+    <a href="{% url 'sales_list' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+
+{% endblock %}
+
+
