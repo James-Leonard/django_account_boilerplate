@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <h1>Create Inventory Item</h1>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" class="form-control" id="name" name="name" placeholder="Enter name">
+    </div>
+    <div class="form-group">
+      <label for="category">Category:</label>
+      <select class="form-control" id="category" name="category">
+        {% for category in categories %}
+        <option value="{{ category.id }}">{{ category.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="price">Price:</label>
+      <input type="number" class="form-control" id="price" name="price" step="0.01" placeholder="Enter price">
+    </div>
+    <div class="form-group">
+      <label for="current_quantity">Current Quantity:</label>
+      <input type="number" class="form-control" id="current_quantity" name="current_quantity" placeholder="Enter current quantity">
+    </div>
+    <div class="form-group">
+      <label for="reorder_level">Reorder Level:</label>
+      <input type="number" class="form-control" id="reorder_level" name="reorder_level" placeholder="Enter reorder level">
+    </div>
+    <div class="form-group">
+      <label for="reorder_quantity">Reorder Quantity:</label>
+      <input type="number" class="form-control" id="reorder_quantity" name="reorder_quantity" placeholder="Enter reorder quantity">
+    </div>
+    <div class="form-group">
+      <label for="last_ordered_date">Last Ordered Date:</label>
+      <input type="date" class="form-control" id="last_ordered_date" name="last_ordered_date" placeholder="Enter last ordered date">
+    </div>
+    <div class="form-group">
+      <label for="suppliers">Suppliers:</label>
+      <select multiple class="form-control" id="suppliers" name="suppliers">
+        {% for supplier in suppliers %}
+        <option value="{{ supplier.id }}">{{ supplier.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+{% endblock %}

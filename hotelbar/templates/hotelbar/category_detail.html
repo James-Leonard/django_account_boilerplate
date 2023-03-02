@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ category.name }}</h1>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Current Quantity</th>
+        <th>Reorder Level</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in category.inventoryitem_set.all %}
+        <tr>
+          <td>{{ item.name }}</td>
+          <td>{{ item.price }}</td>
+          <td>{{ item.current_quantity }}</td>
+          <td>{{ item.reorder_level }}</td>
+          <td>
+            <a href="{% url 'edit_item' item.pk %}" class="btn btn-primary btn-sm">Edit</a>
+            <a href="{% url 'delete_item' item.pk %}" class="btn btn-danger btn-sm">Delete</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="5">No items found.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <a href="{% url 'create_item' category.pk %}" class="btn btn-primary">Add Item</a>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h2 class="mb-4">Edit Supplier</h2>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-group row">
+        <label for="name" class="col-sm-2 col-form-label">Name:</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="name" name="name" value="{{ supplier.name }}">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="contact_name" class="col-sm-2 col-form-label">Contact Name:</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="contact_name" name="contact_name" value="{{ supplier.contact_name }}">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="email" class="col-sm-2 col-form-label">Email:</label>
+        <div class="col-sm-10">
+          <input type="email" class="form-control" id="email" name="email" value="{{ supplier.email }}">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="phone" class="col-sm-2 col-form-label">Phone:</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="phone" name="phone" value="{{ supplier.phone }}">
+        </div>
+      </div>
+      <div class="form-group row mb-5">
+        <div class="col-sm-10 offset-sm-2">
+          <button type="submit" class="btn btn-primary">Update Supplier</button>
+        </div>
+      </div>
+    </form>
+  </div>
+{% endblock %}

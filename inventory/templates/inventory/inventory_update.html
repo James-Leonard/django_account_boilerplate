@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mx-auto">
+        <h2 class="mb-4">Update Inventory Item</h2>
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-primary">Update</button>
+          {% comment %} <a href="{% url 'inventory_detail' %}" class="btn btn-secondary">Cancel</a> {% endcomment %}
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

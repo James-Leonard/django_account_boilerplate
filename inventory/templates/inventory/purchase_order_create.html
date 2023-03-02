@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1 class="mb-4">Create Purchase Order</h1>
+  <form id="purchase-order-form" method="post" action="{% url 'purchase_order_create' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <hr>
+    <h4>Order Items</h4>
+    <table id="order-items-table" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Total Cost</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {{ formset.management_form }}
+        {% for form in formset.forms %}
+        <tr class="order-item-form">
+          <td>{{ form.item }}</td>
+          <td>{{ form.quantity }}</td>
+          <td>{{ form.price }}</td>
+          <td>{{ form.total_cost }}</td>
+          <td><button type="button" class="btn btn-danger remove-item-button">&times;</button></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <button type="button" class="btn btn-success add-item-button">Add Item</button>
+    <button type="submit" class="btn btn-primary">Create Purchase Order</button>
+  </form>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+  $(document).ready(function() {
+    // Add item button functionality
+    $(".add-item-button").click(function() {
+      // Get the formset management form
+      var managementForm = $("#id_purchaseorderline_set-TOTAL_FORMS");
+
+      // Get the total number of forms in the formset
+      var totalForms = parseInt(managementForm.val());
+
+      // Create a new form
+      var newForm = $(".order-item-form:last").clone();
+
+      // Update the form's input names
+      newForm.find(":input").each(function() {
+        // Update the form's ID and name attributes
+        var regex = new RegExp("-(\\d+)-", "g");
+        var replacement = "-" + totalForms + "-";
+        var newId = $(this).attr("id").replace(regex, replacement);
+        var newName = $(this).attr("name").replace(regex, replacement);
+        $(this).attr("id", newId);
+        $(this).attr("name", newName);
+
+        // Clear the form's input values
+        $(this).val("");
+      });
+
+      // Add the new form to the table
+      $(".order-item-form:last").after(newForm);
+
+      // Update the formset management form
+      managementForm.val(totalForms + 1);
+
+      // Update the total cost of the new form
+      updateTotalCost(newForm);
+    });
+
+    // Remove item button functionality
+    $(document).on("click", ".remove-item-button", function() {
+      // Get the formset management form
+      var managementForm = $("#id_purchaseorderline_set-TOTAL_FORMS");
+
+      // Get the total number of forms in the formset
+      var totalForms = parseInt(managementForm.val());
+
+      // Remove the current form
+      $(this).parents(".order-item-form").remove();
+
+      // Update the formset management form
+      managementForm.val(totalForms - 1);
+
+      // Update the total cost of the remaining forms
+      $(".order-item-form").each(function() {
+        updateTotalCost($(this));
+      });
+    });
+
+    // Quantity and price input functionality
+    $(document).on("input", ".quantity-input, .price-input", function() {
+      // Get the quantity and price values
+      var quantity = parseInt($(this).closest(".order-item-form").find(".quantity-input").val());
+      var price = parseFloat($(this).closest(".order-item-form").find(".price-input").val());
+
+      // Calculate the total cost
+      var totalCost = isNaN(quantity) || isNaN(price) ? "" : (quantity * price).toFixed(2);
+
+      // Update the total cost input
+      $(this).closest(".order-item-form").find(".total-cost-input").val(totalCost);
+
+      // Update the total cost of the remaining forms
+      $(".order-item-form").each(function() {
+        updateTotalCost($(this));
+      });
+    });
+
+    // Function to update the total cost of a form
+    function updateTotalCost(form) {
+      // Get the quantity and price values
+      var quantity = parseInt(form.find(".quantity-input").val());
+      var price = parseFloat(form.find(".price-input").val());
+
+      // Calculate the total cost
+      var totalCost = isNaN(quantity) || isNaN(price) ? "" : (quantity * price).toFixed(2);
+
+      // Update the total cost input
+      form.find(".total-cost-input").val(totalCost);
+    }
+  });
+</script>
+{% endblock %}

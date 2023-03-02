@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <h1 class="mt-4">{{ supplier.name }}</h1>
+  <p class="lead">{{ supplier.contact_name }}</p>
+  <hr>
+  <div class="row">
+    <div class="col-md-4">
+      <h2>Supplier Info</h2>
+      <ul class="list-group">
+        <li class="list-group-item">Name: {{ supplier.name }}</li>
+        <li class="list-group-item">Contact Name: {{ supplier.contact_name }}</li>
+        <li class="list-group-item">Phone: {{ supplier.phone }}</li>
+        <li class="list-group-item">Email: {{ supplier.email }}</li>
+      </ul>
+      <br>
+      <a href="{% url 'supplier_edit' supplier.id %}" class="btn btn-primary btn-sm">Edit</a>
+      <a href="{% url 'supplier_delete' supplier.id %}" class="btn btn-danger btn-sm">Delete</a>
+    </div>
+    <div class="col-md-8">
+      <h2>Orders</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Order Date</th>
+            <th>Price</th>
+            <th>Total Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+          <tr>
+            <td>{{ order.item }}</td>
+            <td>{{ order.quantity }}</td>
+            <td>{{ order.order_date }}</td>
+            <td>{{ order.price }}</td>
+            <td>{{ order.total_cost }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5">No orders found.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
